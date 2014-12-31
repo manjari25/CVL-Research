@@ -1,0 +1,15 @@
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\bin\Debug\kinectData.exe.config
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\bin\Debug\kinectData.exe
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\bin\Debug\kinectData.pdb
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\bin\Debug\Coding4Fun.Kinect.Wpf.dll
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\bin\Debug\Microsoft.Expression.Drawing.dll
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData.csprojResolveAssemblyReference.cache
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\MainWindow.baml
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\MainWindow.g.cs
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\App.g.cs
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData_MarkupCompile.cache
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData.g.resources
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData.Properties.Resources.resources
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData.csproj.GenerateResource.Cache
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData.exe
+c:\users\manjari\documents\visual studio 2013\Projects\kinectData\kinectData\obj\Debug\kinectData.pdb

@@ -1,0 +1,6 @@
+c:\users\manjari\documents\visual studio 2013\Projects\kinectDepth\kinectDepth\bin\Debug\kinectDepth.exe.config
+c:\users\manjari\documents\visual studio 2013\Projects\kinectDepth\kinectDepth\bin\Debug\kinectDepth.exe
+c:\users\manjari\documents\visual studio 2013\Projects\kinectDepth\kinectDepth\bin\Debug\kinectDepth.pdb
+c:\users\manjari\documents\visual studio 2013\Projects\kinectDepth\kinectDepth\obj\Debug\kinectDepth.csprojResolveAssemblyReference.cache
+c:\users\manjari\documents\visual studio 2013\Projects\kinectDepth\kinectDepth\obj\Debug\kinectDepth.exe
+c:\users\manjari\documents\visual studio 2013\Projects\kinectDepth\kinectDepth\obj\Debug\kinectDepth.pdb

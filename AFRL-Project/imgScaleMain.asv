@@ -1,0 +1,129 @@
+% Last Edit: 12/17/14
+function [ output_args ] = imgScaleMain( imgName, s )
+%IMGSCALEMAIN Runs the experiment on imgName at image scale = s
+
+    % Variable 
+    features = []; 
+    NSupPixFine = 62;
+    NSupPixCoarse = 13;
+    NEigenVectors = 2;
+    interpolate = 0;
+
+    %Log Scales
+    s=2;
+    scalea = [1,s,s^2,s^3,s^4];
+    sigma = [scalea,3.*scalea];
+    logS = sort(sigma);
+    logScales = logS;
+
+    % Read image(s) in
+    % imgName = 'trainImgs/cow.JPG';
+    I = im2double(imread(imgName));
+%     if(s~=0)
+%         fprintf('Resizing');
+%         I = imresize(I,s);
+%     end
+    
+    % Generate superpixel label image and centroid pixel of the superpixels
+    [SPlabel, centroids] = generateSuperpixelImage( I, NSupPixCoarse, NSupPixFine, NEigenVectors );
+
+    %Plot centroids
+    figure;
+    I_sp2 = segImage(I,SPlabel);
+    imshow(I_sp2);
+    hold on;
+    title('Fine segments with centroids');
+    plot(round(centroids(:,1)),round(centroids(:,2)),'yellowx','LineWidth',2);
+    hold off;
+
+    % Average RGB for superpixel
+    [SPIAvg] = generateAverageRGBforSuperPixelImage(I, SPlabel);
+
+    figure, imshow(SPIAvg);
+    title('SPIAvg');
+    hold on;
+    title('SPI image with centroids');
+    plot(round(centroids(:,1)),round(centroids(:,2)),'yellowx','LineWidth',2);
+    hold off;
+    % round centroids
+    centroids = round(centroids);
+    
+    % Keep rgb values of only superpixels
+    superPixelrgb = zeros(size(SPIAvg,1),size(SPIAvg,2),3);
+    for i=1:size(centroids,1)
+            superPixelrgb(centroids(i,1),centroids(i,2),1) = SPIAvg(centroids(i,1),centroids(i,2),1);
+            superPixelrgb(centroids(i,1),centroids(i,2),2) = SPIAvg(centroids(i,1),centroids(i,2),2);
+            superPixelrgb(centroids(i,1),centroids(i,2),3) = SPIAvg(centroids(i,1),centroids(i,2),3);
+    end
+
+    % Generate log filters and get responses at different scales
+    [logResponses] = logFilterResponses(rgb2gray(I), logScales);
+
+    % Find maximal response and get correct scale for each pixel
+    [correctScale, maxResponse, filterIndex]= maximalResponse(logResponses, logScales, interpolate);
+
+    % Keep only maximal responses and scales for each superpixel center
+    superPixelMaxResponse = zeros(size(SPIAvg,1),size(SPIAvg,2));
+    superPixelCorrectScale = zeros(size(SPIAvg,1),size(SPIAvg,2));
+    superPixelFilterIndex = zeros(size(SPIAvg,1),size(SPIAvg,2));
+    for i=1:size(centroids,1)
+            superPixelMaxResponse(centroids(i,1),centroids(i,2)) = maxResponse(centroids(i,1),centroids(i,2));
+            superPixelCorrectScale(centroids(i,1),centroids(i,2)) = correctScale(centroids(i,1),centroids(i,2));
+            superPixelFilterIndex(centroids(i,1),centroids(i,2)) = filterIndex(centroids(i,1),centroids(i,2));
+    end
+
+    % Plot 1,2,3 sigma rings on the superpixel centers
+    figure;
+    subplot(3,1,1);
+    imshow(I_sp2);
+    title('1 sigma rings');
+    hold on;
+    for i=1:size(centroids,1)
+        ellipse(superPixelCorrectScale(centroids(i,1),centroids(i,2)),superPixelCorrectScale(centroids(i,1),centroids(i,2)),0,centroids(i,1),centroids(i,2),'yellow');
+    end
+    hold off;
+
+    subplot(3,1,2);
+    imshow(I_sp2);
+    title('2 sigma rings');
+    hold on;
+    for i=1:size(centroids,1)
+        ellipse((2*superPixelCorrectScale(centroids(i,1),centroids(i,2))),(2*superPixelCorrectScale(centroids(i,1),centroids(i,2))),0,centroids(i,1),centroids(i,2),'g');
+    end
+    hold off;
+
+    subplot(3,1,3);
+    imshow(I_sp2);
+    title('3 sigma rings');
+    hold on;
+    for i=1:size(centroids,1)
+        ellipse((3*superPixelCorrectScale(centroids(i,1),centroids(i,2))),(3*superPixelCorrectScale(centroids(i,1),centroids(i,2))),0,centroids(i,1),centroids(i,2),'b');
+    end
+    hold off;
+
+    % Compute directional derivative responses at correct scales 
+    [gaussianFirstDerivativeResponses] = gaussianFirstDerivativeFilterResponses(I, correctScale);
+
+    % Keep only values for each superpixel (DDi)
+    superPixelGaussianFirstDerivativeResponses = zeros(size(SPIAvg,1),size(SPIAvg,2),4);
+    for i=1:size(centroids,1)
+            superPixelGaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),1) = gaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),1);
+            superPixelGaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),2) = gaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),2);
+            superPixelGaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),3) = gaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),3);
+            superPixelGaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),4) = gaussianFirstDerivativeResponses(centroids(i,1),centroids(i,2),4);
+    end
+
+    % Construct feature vector FV1 = [R;G;B;DD1;DD2;DD3;DD4] for each
+    % superpixel (centroid)
+    features(:,:,1:3) = superPixelrgb;
+    features(:,:,4:7) = abs(superPixelGaussianFirstDerivativeResponses);
+    
+    save ('features.mat', 'features');
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Resample 
+
+    % Generate stable set of segmentations
+
+end
+

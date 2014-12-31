@@ -1,0 +1,40 @@
+clc;
+clear all;
+close all;
+% s=2;
+% scalea = sqrt(2).^[1:4];
+% sigma = [scalea,3.*scalea];
+% logS = sort(sigma);
+% 
+% for i=1:size(logS,2)
+%     [fdx,fdy]=gaussDeriv2D(logS(1,i),49,24);
+% %     logF = (logS(1,i)^2).*(fspecial('gaussian',49,logS(1,i)));
+% %     figure,surf(fdx);
+%     figure,surf(fdy);
+% end
+tic;
+% a = magic(3);
+% b = magic(3);
+% c = magic(3);
+% abc(:,:,1) = a;
+% abc(:,:,1) = a;
+cow = 'trainImgs/cow.jpg';
+I = rgb2gray(im2double(imread(cow)));
+I2 = imresize(I,0.5);
+gF = 5^2.*fspecial('gaussian',20,5.23);
+figure,surf(gF);
+gF1 = 10^2.*fspecial('gaussian',20,10);
+figure,surf(gF1);
+logF1 = 5^2.*fspecial('log',50,5);
+figure,surf(logF1);
+logF2 = 10^2.*fspecial('log',50,10);
+figure,surf(logF2);
+r1=imfilter(I,gF,'replicate');
+r3=imfilter(I,gF1,'replicate');
+r5=imfilter(I,logF1,'replicate');
+r7=imfilter(I,logF2,'replicate');
+r2=imfilter(I2,gF,'replicate');
+r4=imfilter(I2,gF1,'replicate');
+r6=imfilter(I2,logF1,'replicate');
+r8=imfilter(I2,logF2,'replicate');
+toc;

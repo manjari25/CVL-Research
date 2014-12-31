@@ -1,0 +1,8 @@
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\bin\Debug\kinectColor.exe.config
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\bin\Debug\kinectColor.exe
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\bin\Debug\kinectColor.pdb
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\bin\Debug\Coding4Fun.Kinect.Wpf.dll
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\bin\Debug\Microsoft.Expression.Drawing.dll
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\obj\Debug\kinectColor.csprojResolveAssemblyReference.cache
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\obj\Debug\kinectColor.exe
+c:\users\manjari\documents\visual studio 2013\Projects\kinectColor\kinectColor\obj\Debug\kinectColor.pdb
